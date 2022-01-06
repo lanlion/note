@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <title>jquery打字效果-jq22.com</title>
+</head>
+<body>
+   
+    <img src="inkwell2.gif"  id="inkwell2" style="visibility:hidden;width:50px;height:50px"/>
+    <div id="letter" style="width:200px;word-wrap:break-word">
+
+    </div>
+    <div id="letter_src" hidden="hidden">
+        国庆期间，无锡火车站一张照片爆红网络。照片中，一块牌子写着“无健康码由此进入”，专为“老人机、无微信、不会操作”的旅客提供服务，这张照片在微博上收获10万+次点赞，也让众多网友感叹，数字生活下的老人不应该被遗忘。
+
+        “别从网上买东西，贵”，“别用手机支付，不安全”......玩着手机长大的你，听到爸妈的这些话只觉得不耐烦，但你有没有想过，爸妈之所以排斥这些生活方式，是因为他们可能被互联网抛弃了？
+
+        你习惯了早上打网约车到地铁站、中午叫外卖、上班摸鱼时用淘宝给自己置办几件入秋的新衣服、下班了用小程序让菜送到家门口，习惯了无聊时刷朋友圈、刷抖音、看小说，相比之下，曾经为我们遮风挡雨、在儿时的我们心目中无所不能的爸妈，如今在互联网时代处处碰壁——出门不会用导航、因为不会扫健康码被拦在门外，好不容易学会了网购，却因为爱买便宜货，被家人集体嘲笑。
+
+        给我们带来方便和快乐的互联网，有时却给父母带来被抛弃的屈辱感和说不出的委屈。
+
+        这篇文章里的8位年轻人，讲述了父母在互联网时代的无助时刻和崩溃瞬间：有的是当了40年医生，现在没人陪着不敢去看病；有的是修了一辈子车的“老司机”，却因为不会扫码付款，出不了停车场；还有的因为不会填表打印，气得大喊“天天整这些没用的，直接说岁数大的活埋了就完了”……
+    </div>
+    <script>
+        window.onload = function () {
+            /*
+            整个letter部分的内容由以下构成：
+                一：字符
+                二：空格
+                三：错误emulator—— “|”
+                四：段截止符：“.”
+                五：“,”
+                六：文章截止符“”
+            每种符号都有自己的处理方式
+            */
+
+            //用到的变量
+            var vLetter = document.getElementById("letter");
+            var iSpeedInk = 5;
+            var sText = document.getElementById("letter_src").innerHTML;
+            var iChar = 0;
+            var sChars = "<span>";
+            var iCurInk = 0;                  //设置iCurInk变量，墨汁颜色的最大值
+            var sCurCaret = "";
+           // var sCaret = " <img src='pen.gif' style='position:absolute;width:30px;height:30px' />";        //空格了留的很巧妙
+            var sCaret = " <img src='pen.gif' style='vertical-align:middle;width:30px;height:30px' />";        //空格了留的很巧妙
+           
+            //主要函数
+            var doStep = function () {
+                var sChar = sText.charAt(iChar);
+                var iDelay = 32;
+
+                //判断字符
+                if (sChar == "")                                   //文章结束标志
+                {
+                    sCurCaret = "";
+                }
+
+                else if (sChar == "|")                         //遇到错误单词
+                {
+                    sChar = "";
+                    sChars = sChars.substring(0, sChars.length - 1);
+                    iDelay = 64;
+                }
+                else if (sChar == "<")                        //转行
+                {
+                    var iPos = sText.indexOf(">", iChar);
+                    sChar = sText.substring(iChar, iPos + 1);
+                    iChar = iPos;
+                }
+                else if (sChar == "&")                          //html 特殊字符
+                {
+                    var iPos2 = sText.indexOf(";", iChar);
+                    sChar = sText.substring(iChar, iPos2 + 1);
+                    iChar = iPos2;
+                }
+                else if (sChar == ".") {
+                    iDelay = 300;
+                }
+                else if (sChar == ",") {
+                    iDelay = 100;
+                }
+                else if (iChar > 5) {
+                    sCurCaret = sCaret;
+                }
+
+                if (sChar == " ")                             //刚写完一个单词
+                {
+                    iCurInk += iSpeedInk;
+                    sChar = '</span><span style="color:rgb(' + iCurInk + ',' + iCurInk + ',' + iCurInk + ')">' + sChar;
+                }
+                if (document.getElementById("inkwell2").style.visibility == "visible") {
+                    sCurCaret = sCaret;
+                    sChar = "</span><span style='color:rgb(0,0,0)'>" + sChar;
+                    document.getElementById("inkwell2").style.visibility = "hidden";
+                }
+
+                if (iCurInk > 160)                //设置计数值，重新蘸取墨汁
+                {
+                    iCurInk = 0;
+                    document.getElementById("inkwell2").style.visibility = "visible";
+                    iDelay = 1000;
+                    sCurCaret = "";
+                }
+
+                sChars += sChar;
+
+                if (iChar == sText.length - 1) {
+                    sCurCaret = "";
+                }
+
+                vLetter.innerHTML = sChars + sCurCaret;
+
+                iChar++;
+
+                if (iChar < sText.length) {
+                    setTimeout(doStep, 100 + iDelay);           //iDelay值得设置为正常写字的速度
+                }
+            }        //dostop()函数
+            doStep();              //必须先调用函数
+        };
+    </script>
+</body>
+</html>

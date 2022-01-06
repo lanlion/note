@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>给小朋友的一封信</title>
+<link href="css/jq22.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/snow.js"></script>
+<script>//createSnow('', 60);</script>
+   
+</head>
+
+<body style="background-color:tan;color:black" >
+    <div id="introduction" ></div>
+    <script>
+        var divTyping = document.getElementById('introduction')
+        var i = 0,
+            timer = 0,
+            str = '用JS实现动态打字效果'
+
+        function typing() {
+            if (i <= str.length) {
+                divTyping.innerHTML = str.slice(0, i++) + '_'
+                timer = setTimeout(typing, 200)
+            }
+            else {
+                divTyping.innerHTML = str//结束打字,移除 _ 光标
+                clearTimeout(timer)
+            }
+        }
+
+        typing();
+
+
+    </script>
+</body>
+</html>

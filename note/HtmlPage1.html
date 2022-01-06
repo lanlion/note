@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=0.6, user-scalable=0" />
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+
+
+
+        body {
+            background-color: #EA4C89;
+            font-family: "Playfair Display", serif;
+        }
+
+            body .container {
+                position: relative;
+                height: 400px;
+                width: 550px;
+                margin: 50% auto 0;
+                background-color: #336666;
+            }
+
+                body .container:after {
+                    content: "";
+                    position: absolute;
+                    top: 232px;
+                    left: 82px;
+                    width: 900px;
+                    height: 670px;
+                    background-color: rgba(0, 0, 0, 0.3);
+                    -webkit-transform: rotate(55deg);
+                    transform: rotate(55deg);
+                    z-index: -1;
+                }
+
+                body .container .letter {
+                    position: absolute;
+                    top: 0px;
+                    left: 50%;
+                    -webkit-transform: translateX(-50%);
+                    transform: translateX(-50%);
+                    width: 490px;
+                    height: 400px;
+                    background-color: #fff;
+                    -webkit-transition: top 0.4s ease-in;
+                    transition: top 0.4s ease-in;
+                }
+
+                    body .container .letter img {
+                        display: block;
+                        width: 150px;
+                        margin: 0 auto;
+                    }
+
+                    body .container .letter h2 {
+                        margin: 0 0 20px;
+                        text-align: center;
+                        text-transform: uppercase;
+                        font-weight: 400;
+                    }
+
+                    body .container .letter .rec {
+                        display: block;
+                        height: 18px;
+                        margin: 10px 10px;
+                        background-color: #eee;
+                    }
+
+                        body .container .letter .rec:first-child {
+                            width: 400px;
+                        }
+
+                        body .container .letter .rec:nth-child(2) {
+                            width: 230px;
+                        }
+
+                        body .container .letter .rec:last-child {
+                            width: 210px;
+                        }
+
+                body .container .open {
+                    top: -60px;
+                }
+
+                body .container .side {
+                    position: absolute;
+                    top: 0;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    z-index: 10;
+                }
+
+                body .container .side-left {
+                    left: 0;
+                    border-width: 200px 0 200px 275px;
+                    border-color: transparent transparent transparent #C2EBEB;
+                }
+
+                body .container .side-right {
+                    right: 0;
+                    border-width: 200px 275px 200px 0;
+                    border-color: transparent #C2EBEB transparent transparent;
+                }
+
+                body .container .side-bottom {
+                    top: 160px;
+                    border-width: 0 275px 240px 275px;
+                    border-color: transparent transparent #66CCCC transparent;
+                }
+
+        @media only screen and (max-width: 640px) {
+
+
+
+            /*这里书写手机端的css代码，手机端的css代码是在pc端的代码基础上书写，类似于补充*/
+
+
+        }
+    </style>
+</head>
+<body>
+    <script src="jquery-1.8.2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".container").hover(function () {
+                $(".letter").toggleClass("open");
+            });
+            $(".container").click(function () {
+                setTimeout(function () {
+                    location.href = "demo3.html";
+                }, 2000);
+
+
+            });
+        });
+
+    </script>
+
+    <a href="demo6.html">demo6.html</a>
+    <div class="container" id="container">
+
+        <div class="letter">
+            <img src="xxl.jpg" />
+            <h2>Invitation</h2><span class="rec"></span><span class="rec"></span><span class="rec"></span>
+        </div>
+        <div class="side side-left"></div>
+        <div class="side side-right"></div>
+        <div class="side side-bottom"></div>
+    </div>
+</body>
+</html>
